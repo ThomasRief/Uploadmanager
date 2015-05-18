@@ -1,0 +1,40 @@
+body{
+	
+
+}
+
+.wrapper {
+	
+	margin-top: 0;
+	margin-bottom: 0;
+	
+	width: 380px;
+	height: auto;
+}
+
+input[type="text"], input[type="password"]{
+
+	width: 355px;
+}
+
+form {
+	
+	margin: 20px 0 0 0;
+}
+
+.noticesBox {
+	
+	width: 396px;
+	
+	margin: 0 -10px 10px -10px;
+}
+
+.notice {
+	
+	width: inherit;
+}
+
+div.loginBox {
+	
+	margin: 50px 0 0 0 ;
+}
