@@ -1,25 +1,9 @@
 <?php
 
+// start session
 session_start();
-if( isset( $_GET['deleteInstallation'] ) ) {
-	
-	function rrmdir($dir) { 
-	   if (is_dir($dir)) { 
-	     $objects = scandir($dir); 
-	     foreach ($objects as $object) { 
-	       if ($object != "." && $object != "..") { 
-	         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
-	       } 
-	     } 
-	     reset($objects); 
-	     rmdir($dir); 
-	   } 
-	 }
-	 
-	rrmdir( 'installer' );
-	unlink( 'installer.php' );
-}
 
+// relocate user if he is allready logged in
 if( isset( $_SESSION['userID'] ) ) {
 	
 	header( 'Location: account.php' );
@@ -100,6 +84,7 @@ try {
 	
 	// set a custom hook
 	$html->setHook( 'login_notices', $notices );
+	$html->setHookAsTemplate( 'template_head', 'templates/head.template.php' );
 	
 	// creat file
 	$html->createFile();

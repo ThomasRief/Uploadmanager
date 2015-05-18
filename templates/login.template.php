@@ -2,14 +2,9 @@
 $template = 
 $getHook( 'template_doctype' ).
 '<html>
-	<head>
-		
-		<title>'.$getHook( 'template_title' ).'</title>
-		<meta charset="'.$getHook( 'template_encoding' ).'" />
-		
-		'.$getHook( 'template_style' ).'
-		
-	</head>
+
+	'.$getHook( 'template_head' ).'
+	
 	<body>
 	
 		<div class="wrapper">
@@ -17,7 +12,7 @@ $getHook( 'template_doctype' ).
 			<div class="noticesBox">'.$getHook( 'login_notices' ).'</div>
 			<div class="loginBox">
 				
-				<h2 class="contentTitle">Bitte melden Sie sich an</h2>
+				<h2 class="contentTitle">Login:</h2>
 				<form action="login.php" method="POST">
 				
 					<input type="text" name="name" placeholder="Nutzername" />
@@ -25,8 +20,15 @@ $getHook( 'template_doctype' ).
 					
 					<input type="submit" name="submit" value="Anmelden" />
 					
+					<label for="keepLoggedIn">
+						<input type="checkbox" name="keepLoggedIn" value="true" />
+						Angemeldet bleiben
+					</label>
+					
 					<div class="clear"></div>
 					
+					<a class="question" href="">Hast du dein Passwort vergessen?</a>
+				
 				</form>
 				
 			</div>

@@ -1,6 +1,6 @@
 body{
 	
-
+	overflow: hidden;
 }
 
 .wrapper {
@@ -9,12 +9,53 @@ body{
 	margin-bottom: 0;
 	
 	width: 380px;
-	height: auto;
+	min-height: 750px;
+	
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(214,214,214,1);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(214,214,214,1);
+	box-shadow: 0px 0px 10px 0px rgba(214,214,214,1);
+}
+.contentTitle {
+	
+	font-size: 25px;
 }
 
 input[type="text"], input[type="password"]{
 
 	width: 355px;
+	
+	font-size: 18px;
+	height: 50px;
+	
+	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(232,232,232,1);
+	-moz-box-shadow: inset 0px 0px 10px 0px rgba(232,232,232,1);
+	box-shadow: inset 0px 0px 10px 0px rgba(232,232,232,1); 
+	
+	border: thin solid #c1c1c1;
+}
+
+input[type="submit"] {
+	
+	width: 377px;
+	
+	height: 50px;
+	
+	float: none;
+	
+	margin: 0;
+}
+
+label[for="keepLoggedIn"] {
+	
+	display: block;
+	
+	color: #5a85a5;
+	font-size: 15px;
+		
+	line-height: 16px;
+		
+	padding: 5px;
+	margin: 20px 0 10px 0;
 }
 
 form {
@@ -38,3 +79,16 @@ div.loginBox {
 	
 	margin: 50px 0 0 0 ;
 }
+
+.question {
+	
+	display: block;
+	margin: 5px 0 10px 10px;
+	
+	color: #5a85a5;
+}
+
+	.question:hover {
+		
+		color: #486a84;
+	}
