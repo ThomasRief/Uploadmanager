@@ -53,8 +53,26 @@ try {
 	$html->setHook( 'account_contentTitle', 'Willkommen!' );
 	$html->setHook( 'account_content', $content );
 	
+	// menu
+	$menu = 
+	array(
+		'userPerm' => $user->user_permGroup,
+		'links' => array(
+			'Mein Account' => array(
+				'href' => 'accountEdit.php',
+				'perm' => 'user',
+				'sub' => array() ),
+			'Upload' => array(
+				'href' => 'upload.php',
+				'perm' => 'user',
+				'sub' => array() ),
+			'Administration' => array(
+				'href' => 'admin.php',
+				'perm' => 'admin',
+				'sub' => array() ) ) );
+	
 	// set templates
-	$html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php' );
+	$html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php', $menu );
 	
 	// creat file
 	$html->createFile();

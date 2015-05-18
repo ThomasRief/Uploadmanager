@@ -6,7 +6,7 @@ class user extends connection {
 	
 	public $user_ID;
 	
-	private $user_permGroup;
+	public $user_permGroup;
 	
 	private $table_name;
 	

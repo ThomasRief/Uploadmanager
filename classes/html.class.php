@@ -137,7 +137,12 @@ class html {
 	 * 
 	 * @return
 	 */
-	public function setHookAsTemplate( $hookName, $templateURL, $attributes = () ) {
+	public function setHookAsTemplate( $hookName, $templateURL, $attributes = '' ) {
+		
+		if( empty( $attributes ) ) {
+			
+			$attributes = array();
+		}
 		
 		$getHook = function( $hook ) {
 			
