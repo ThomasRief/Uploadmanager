@@ -42,8 +42,13 @@ try {
 	$html->addStylelink( 'styles/upload.css' );
 	
 	// define content
-	$content =
-	'';
+	$content =  ' <h2>Neuer Upload</h2>                       
+                  <p>Waehle die Datei, die hochgeladen werden soll</p>
+                  <form action="uploadedfiles.php" method="post" enctype="multipart/form-data">
+                    <input name="userfile" type="file" /><br>
+                    <input type="submit" value="Hochladen">
+                  </form>';
+	
 	
 	// set hook
 	$html->setHook( 'menu_username', $user->user_name );
