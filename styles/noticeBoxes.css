@@ -1,0 +1,45 @@
+/*
+ * Hier finden sich wichtige Formationen für Hinweisboxen.
+ * Hinweisboxen sollten wie folgt aufgebaut sein:
+ * <div class="notice [error/success]">
+ * 	<p> [Der Hinweistext] </p>
+ * </div>
+ */
+
+body {
+	
+	
+}
+
+.notice {
+	
+	border-left: 5px solid;
+	border-bottom: 1px solid;
+	border-color: #dc8423;
+	
+	background: white;
+	
+	margin: 10px 0 10px 0;
+	padding: 0px;
+}
+
+	.notice p {
+		
+		display: block;
+		
+		margin: 0;
+		padding: 10px;
+		
+		border: thin solid #e8e8e8;
+		border-left: none;
+	}
+
+.error {
+	
+	border-color: #d52b2b;
+}
+
+.success {
+	
+	border-color: #38a226;
+}
