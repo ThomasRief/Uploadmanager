@@ -44,7 +44,7 @@ require_once( 'config/user_table.config.php' );
 		{
 			$id_num = $id[0][USERTABLE_USERID];
 			$_SESSION['userID'] = $id_num;
-			header( 'Location: ./account.php' );
+			header( 'Location: ./dashboard.index.php' );
 		}
 		else
 		{
