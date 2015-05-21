@@ -17,12 +17,12 @@
 	require_once( 'config/menu.config.php' );
 
 ///define some meta values about this document
-	$title 				= 'Datei hochladen |Uploadmanager';
+	$title 				= 'Nutzer hinzufügen |Uploadmanager';
 	$templateLink 		= 'templates/dashboard.template.php';
 
 ///start page processing
 	try {
-	
+		
 		// set classes
 		$connection = new connection( DB_USER, DB_PASS, 'uploadmanager' );
 		$html = new html();
@@ -45,26 +45,24 @@
 		$html->addStylelink( 'styles/dashboard.css' );
 		$html->addStylelink( 'styles/dashboardHeader.css' );
 		
-		// define content
-		$content =  
-		'<p>Wähle die Datei, die hochgeladen werden soll</p>
-    	<form action="dashboard.overview.php" method="post" enctype="multipart/form-data">
-        	<input name="userfile" type="file" /><br>
-            <input type="submit" value="Hochladen">
-       	</form>
-       	<div class="clear"></div>';
+		//generate content
+		$content =
+		'<div class="notice">
+			<p>
+				Leider ist dieser Bereich noch nicht ausgebaut!
+			</p>
+		</div>';
 		
-		
-		// set hook
+		// set hooks
 		$html->setHook( 'menu_username', $user->user_name );
-		$html->setHook( 'account_contentTitle', 'Datei hochladen:' );
+		$html->setHook( 'account_contentTitle', 'Nutzer hinzufügen:' );
 		$html->setHook( 'account_content', $content );
 		
 		// menu
 		$menu = 
 		array(
 			'userPerm' => $user->user_permGroup,
-			'selectedPage' => 'upload',
+			'selectedPage' => 'addUser',
 			'links' => $menuArray );
 		
 		// set templates

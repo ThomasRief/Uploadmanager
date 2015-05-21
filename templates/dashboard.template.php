@@ -3,14 +3,9 @@
 $template = 
 $getHook( 'template_doctype' ).
 '<html>
-	<head>
-		
-		<title>'.$getHook( 'template_title' ).'</title>
-		<meta charset="'.$getHook( 'template_encoding' ).'" />
-		
-		'.$getHook( 'template_style' ).'
-		
-	</head>
+	
+	'.$getHook( 'template_head' ).'
+	
 	<body>
 	
 		'.$getHook( 'account_menu' ).'

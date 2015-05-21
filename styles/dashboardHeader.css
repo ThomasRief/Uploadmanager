@@ -1,0 +1,182 @@
+
+/*
+ * Enthält alle nötigen Formatierungen für den gesamten Headerbereich.
+ */
+
+body {
+	
+	
+}
+
+/* Main Structural Classes */
+#headerFrame {
+	
+	position: fixed;
+	
+	width: 100%;
+	
+	margin-top: -150px;
+}
+
+#topRow{
+
+	width: 100%;
+	height: 50px;
+	
+	background: #393939;
+	
+	position: fixed;
+	
+	z-index: 100;
+	
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+	-moz-box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+	box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+}
+	
+	.headerProjectTitle {
+		
+		color: white;
+		font-size: 30px;
+		font-variant: small-caps;
+		
+		float: left;
+		
+		margin: 3px 0 15px 15px;
+		padding: 0;
+	}
+	
+	#loggedInUser {
+		
+		color: white;
+		font-size: 16px;
+		
+		float: right;
+		
+		line-height: 50px;
+		
+		margin: 0 20px 0 0;
+	}
+	
+	 .userName{
+	 	
+	 	color: #75bdbb;
+	 	font-weight: bolder;
+	 }
+	 
+	 .loggoutLink:hover{
+	 	
+	 	color: #75bdbb;
+	 	text-decoration: underline;
+	 }
+	
+#bottomRow {
+	
+	width: 100%;
+	height: 50px;
+	
+	position: fixed;
+	
+	margin: 50px 0 0 0;
+	padding: 0 0 0 10px;
+	
+	background: white;
+	
+	z-index: 99;
+	
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+	-moz-box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+	box-shadow: 0px 1px 5px 0px rgba(84,84,84,1);
+}
+
+	.headerGroupLink {
+		
+		display: block;
+		
+		float: left;
+		
+		line-height: 30px;
+		
+		font-size: 20px;
+		
+		margin: 5px 4px 5px 4px;
+		padding: 5px 8px 5px 8px; 
+		
+	}
+
+		.headerGroupLink:hover {
+			
+			-webkit-box-shadow: inset 0px 0px 5px 0px rgba(189,189,189,1);
+			-moz-box-shadow: inset 0px 0px 5px 0px rgba(189,189,189,1);
+			box-shadow: inset 0px 0px 5px 0px rgba(189,189,189,1);
+
+			background: #fafafa;
+
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
+		
+		.selected {
+			
+			font-weight: bolder;
+		}
+
+#sideMenu {
+
+	background: #393939;
+
+	position: fixed;
+	z-index: 98;
+	
+	width: 180px;
+	min-height: 700px;
+	
+	padding: 20px 10px;	
+	margin: 100px 0 0 0; 
+	
+	-webkit-box-shadow: 1px 0px 5px 0px rgba(84,84,84,1);
+	-moz-box-shadow: 1px 0px 5px 0px rgba(84,84,84,1);
+	box-shadow: 1px 0px 5px 0px rgba(84,84,84,1);
+	
+	color: white;
+}
+
+	.sidebarLink {
+		
+		display: block;
+		
+		width: auto;
+		line-height: 20px;
+		
+		padding: 10px;
+		margin: 0 -10px 0 -10px;
+		
+		font-size: 16px;
+		
+		border-top: 1px solid #393939;
+		border-bottom: 1px solid #393939;
+	}
+	
+	.sidebarLink:hover {
+	
+		background: #57aeac;
+	}
+	
+	.subSelected {
+	
+		background: #75bdbb;	
+		
+		border-color: #c3c3c3;
+	}
+
+/* Navigations */
+.nav {
+	
+}
+
+.linkGroups {
+	
+}
+
+.subLinks

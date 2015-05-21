@@ -1,0 +1,34 @@
+
+/*
+ * Enthält alle Formatierungen, die für die Dashboard-Seiten benötigt werden.
+ */
+
+body {
+	
+	
+}
+
+/* Main Structural Classes */
+
+#header {
+	
+	/* the header and all his sub-classes are in a separated file */
+}
+
+.wrapper {
+	
+	margin-left: 250px;
+}
+
+/* Text Formations */
+h2 {}
+
+a {}
+
+p {}
+
+/* Tables */
+table{}
+
+/* Formular */
+form{}

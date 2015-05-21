@@ -1,24 +1,28 @@
 <?php
-  session_start();
-  if( !isset( $_SESSION['userID'] ) ) {
-	
-	  header( 'Location: index.php?pleaseLogin' );
-  }
-  
-  // important stuff!!!
-  require_once( 'classes/connection.class.php' );
-  require_once( 'classes/user.class.php' );
-  require_once( 'classes/html.class.php' );
 
-  require_once( 'config/db_data.config.php' );
-  require_once( 'config/user_table.config.php' );
-  
-  // some document information
-  $title 				= 'hochgeladende Dateien';
-  $templateLink 		= 'templates/account.template.php';
-  
-   // really important to catch Exceptions
-   try {
+///Start session and test if user is logged in
+	session_start();
+	if( !isset( $_SESSION['userID'] ) ) {
+		
+		header( 'Location: index.php?pleaseLogin' );
+	}
+
+///import needed classes and configuration
+	require_once( 'classes/connection.class.php' );
+	require_once( 'classes/user.class.php' );
+	require_once( 'classes/html.class.php' );
+
+	require_once( 'config/db_data.config.php' );
+	require_once( 'config/user_table.config.php' );
+	require_once( 'config/menu.config.php' );
+
+///define some meta values about this document
+	$title 				= 'Upload Übersicht';
+	$templateLink 		= 'templates/dashboard.template.php';
+
+///start page processing
+	try {
+		
         // set classes
 	    $conn = new connection( DB_USER, DB_PASS, 'uploadmanager' );
 	    $html = new html();
@@ -28,7 +32,8 @@
         if( !$user->loadUser( $_SESSION['userID'] ) ) {
 	         header( 'Location: error.php' );
         }
-        // some variables
+        
+        // try to save uploaded file
         if ($_FILES) 							// only when something in $_FILES
 		{   
 		    // create downloadlink
@@ -46,13 +51,11 @@
 			$conn->executeStatement( $stmt );
 		}
 		
-		// database 
-
+		// get all uploads of user out of the database
 		$sth = $conn->connection->prepare("SELECT * FROM downloadlog WHERE uploadUser = :user_id");
         $sth->bindParam(':user_id', $user->user_ID, PDO::PARAM_INT); 
 		$sth->execute();
 
-        // Fetch all of the rows in $result 
         $result = $sth->fetchAll();		
 		
 		// set some document information
@@ -60,10 +63,12 @@
 	    $html->title = $title;
 	
 	    // bind styles
-	    $html->addStylelink( 'http://fonts.googleapis.com/css?family=Open+Sans' );
-	    $html->addStylelink( 'styles/main.css' );
-	    $html->addStylelink( 'styles/upload.css' );
-	
+	   	$html->addStylelink( 'http://fonts.googleapis.com/css?family=Open+Sans' );
+		$html->addStylelink( 'styles/main.css' );
+		$html->addStylelink( 'styles/noticeBoxes.css' );
+		$html->addStylelink( 'styles/dashboard.css' );
+		$html->addStylelink( 'styles/dashboardHeader.css' );
+		
 	    // define content
 	    // table head           
         $content = '<table> <tr><th>Download Link</th> </tr>'; 
@@ -79,8 +84,16 @@
 	    $html->setHook( 'account_contentTitle', 'Bereits hochgeladene Dokumente' );
 	    $html->setHook( 'account_content', $content );
 	
+		// menu
+		$menu = 
+		array(
+			'userPerm' => $user->user_permGroup,
+			'selectedPage' => 'overview',
+			'links' => $menuArray );
+			
 	    // set templates
-	    $html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php' );
+		$html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php', $menu );
+		$html->setHookAsTemplate( 'template_head', 'templates/head.template.php' );
 	
 	    // creat file
 	    $html->createFile();
