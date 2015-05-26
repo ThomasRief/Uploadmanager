@@ -1,0 +1,178 @@
+body {
+	color: #5f5f5f;
+	font-family: "Open Sans", sans-serif;
+	font-size: 14px;
+	
+	background: #f1f1f1;
+	
+	width: 100%;
+	
+	margin: 0;
+}
+
+.wrapper {
+	
+	background: white;
+	
+	min-height: 200px;
+	width: 730px;
+	
+	padding: 10px;
+	margin: 50px auto;
+	
+	-webkit-box-shadow: 	0 1px 3px rgba(0,0,0,.13);
+	-moz-box-shadow: 		0 1px 3px rgba(0,0,0,.13);
+	box-shadow: 			0 1px 3px rgba(0,0,0,.13);
+}
+
+header {
+	
+	margin: -34px -10px 10px -14px;
+	padding: 0;
+	
+	width: 750px;
+	height: 58px;
+}
+
+h1 {
+	
+	display: block;
+	
+	background: #459dba;
+	
+	float: left;
+	
+	margin: 0;
+	padding: 10px;
+	
+	color: white;
+	
+	-webkit-box-shadow: 	0 1px 3px rgba(0,0,0,.13);
+	-moz-box-shadow: 		0 1px 3px rgba(0,0,0,.13);
+	box-shadow: 			0 1px 3px rgba(0,0,0,.13);
+}
+
+h2 {
+	
+	display: table-cell; 
+	
+	height: inherit;
+	
+	vertical-align: bottom;
+	
+	color: #a4a4a4;
+	
+	padding: 0 0 0 10px;
+}
+
+.content {
+	
+	margin: 30px 0;
+}
+
+input[type=text], input[type=password] {
+	
+	height: 30px;
+	
+	padding: 10px;
+	
+	border: thin solid #b6b6b6;
+	
+	font-size: 16px;
+}
+
+input[type=submit] {
+	
+	background: #6aa8bf;
+	border: 3px solid #4e98b4;
+	
+	color: white;
+	font-size: 18px;
+	
+	height: 50px;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	
+	margin: 30px 0 0 0;
+}
+
+	input[type=submit]:hover {
+		
+		background: white;
+		color: #6aa8bf;
+		
+		cursor: pointer;
+	}
+
+.error {
+	
+	border-left: 5px solid #d82727;
+	border-bottom: 1px solid #d82727;
+}
+
+	.error p {
+		
+		margin: 0;
+		padding: 10px;
+		
+		border-right: 1px solid #c6c6c6;
+		border-top: 1px solid #c6c6c6;
+	}
+	
+.dir {
+	
+	
+}
+
+	.file p, .folder p {
+		
+		border: #d7d7d7 thin solid;
+		
+		padding: 10px;
+		margin: 0;
+	}
+	
+	.file , .folder {
+		
+		margin: 5px 0 5px 0;
+	}
+	
+	.folder {
+		
+		border-left: 5px solid #4586ba;
+		border-bottom: 1px solid #4586ba;
+	}
+	
+	.folder .file p, .folder .folder p {
+		
+		border: none;
+		border-bottom: #d7d7d7 thin solid;
+		border-left: #d7d7d7 thin solid;
+		border-right: #d7d7d7 thin solid;
+		
+		margin-left: 10px;
+	}
+	
+	.folder .folder {
+		
+		margin-left: 10px;
+	}
+	
+	.folder .folder p {
+		
+		margin-left: 0;
+	}
+	
+	.folder .folder .file p {
+		
+		margin-left: 10px;
+	}
+	
+a {
+	
+	color: #3f96c0;
+	text-decoration: none;
+	font-size: 16px;
+}
