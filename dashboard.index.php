@@ -1,93 +1,85 @@
 <?php
 
-///Start session and test if user is logged in
-	session_start();
-	if( !isset( $_SESSION['userID'] ) ) {
-		
-		header( 'Location: index.php?pleaseLogin' );
-	}
-
-///import needed classes and configuration
-	require_once( 'classes/connection.class.php' );
-	require_once( 'classes/user.class.php' );
-	require_once( 'classes/html.class.php' );
-
-	require_once( 'config/db_data.config.php' );
-	require_once( 'config/user_table.config.php' );
-	require_once( 'config/menu.config.php' );
-
-///define some meta values about this document
-	$title 				= 'Nutzerkontrollzentrum';
-	$templateLink 		= 'templates/dashboard.template.php';
-
-///start page processing
+/// load frame
+	require_once( 'php/frame.php' );
+	
+/// process document
 	try {
 		
-		// set classes
-		$connection = new connection( DB_USER, DB_PASS, 'uploadmanager' );
-		$html = new html();
-		$user = new user();
-		
-		// load user
-		if( !$user->loadUser( $_SESSION['userID'] ) ) {
+		/// some document values
+			$html->title = 'Nutzerkontrollzentrum |uploadmanager';			// head title tag
+			$docTemplate = 'templates/dashboard.template.php';				// main template
 			
-			header( 'Location: error.php' );
-		}
-		
-		// set some document information
-		$html->setTemplate( $templateLink );
-		$html->title = $title;
-		
-		// bind styles
-		$html->addStylelink( 'http://fonts.googleapis.com/css?family=Open+Sans' );
-		$html->addStylelink( 'styles/main.css' );
-		$html->addStylelink( 'styles/noticeBoxes.css' );
-		$html->addStylelink( 'styles/dashboard.css' );
-		$html->addStylelink( 'styles/dashboardHeader.css' );
-		
-		//generate content
-		$content =
-		'<p>
-			Willkommen im Nutzerkontrollzentrum! Hier finden Sie alle Werkzeuge, um Ihr Profil zu bearbeiten,
-			oder Daten hochzuladen.
-		</p>';
-		
-		// error handling
-		if( isset( $_GET['noPerm'] ) ) {
+			$contentTitle = 'Willkommen!';									// displayed title
 			
-			$error = 
-			'<div class="notice error">
-				<p>
-					Sie haben soeben versucht eine Seite zu öffnen, für
-					welche Sie nicht die nötigen Rechte haben!
-				</p>
-			</div>';
-			$html->setHook( 'account_error', $error );
-		}
+			// stylelinks
+			$html->addStylelink( 'http://fonts.googleapis.com/css?family=Open+Sans' );
+			$html->addStylelink( 'styles/main.css' );
+			$html->addStylelink( 'styles/noticeBoxes.css' );
+			$html->addStylelink( 'styles/dashboard.css' );
+			$html->addStylelink( 'styles/dashboardHeader.css' );
+			
+		/// generate content
+			// menu
+			$menu = 
+			array(
+				'userPerm' => $user->user_permGroup,
+				'selectedPage' => 'index',
+				'links' => $menuArray );
+			
+			// main content
+			$content =
+			'<p>
+				Willkommen im Nutzerkontrollzentrum! Hier finden Sie alle Werkzeuge, um Ihr Profil zu bearbeiten,
+				oder Daten hochzuladen.
+			</p>';
+			
+			// error handling
+			if( isset( $_GET['noPerm'] ) ) {
+				
+				$error = 
+				'<div class="notice error">
+					<p>
+						Sie haben soeben versucht eine Seite zu öffnen, für
+						welche Sie nicht die nötigen Rechte haben!
+					</p>
+				</div>';
+			
+			}
+			
+			// if error isnt defined
+			if( !isset( $error ) ) {
+				
+				$error = '';
+			}
+			
+		/// set hooks
+			// string hooks
+				// menu
+				$html->setHook( 'menu_username', $user->user_name );
+				
+				// content
+				$html->setHook( 'account_contentTitle', $contentTitle );
+				$html->setHook( 'account_content', $content );
 		
-		// set hooks
-		$html->setHook( 'menu_username', $user->user_name );
-		$html->setHook( 'account_contentTitle', 'Willkommen!' );
-		$html->setHook( 'account_content', $content );
-		
-		// menu
-		$menu = 
-		array(
-			'userPerm' => $user->user_permGroup,
-			'selectedPage' => 'index',
-			'links' => $menuArray );
-		
-		// set templates
-		$html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php', $menu );
-		$html->setHookAsTemplate( 'template_head', 'templates/head.template.php' );
-		
-		// creat file
-		$html->createFile();
-
-	// catch errors
-	} catch( Exception $e ) {
+				// error
+				$html->setHook( 'account_error', $error );	
+				
+			// template hooks
+				// main
+				$html->setTemplate( $docTemplate );
+				
+				// menu
+				$html->setHookAsTemplate( 'account_menu', 'templates/menu.template.php', $menu );
+				$html->setHookAsTemplate( 'template_head', 'templates/head.template.php' );
+				
+		/// close file
+			$html->createFile();
+			
+			
+				
+	} catch( ErrorException $e ) {
 		
 		header( 'Location: error.php' );
 	}
-
 ?>
