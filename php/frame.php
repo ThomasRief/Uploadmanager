@@ -39,7 +39,7 @@
  		if( isset( $_SESSION['userID'] ) ) {
 			if( !$user->loadUser( $_SESSION['userID'] ) ) {
 				
-				throw Exception( 'Nutzer konnte nicht geladen werden!' );
+				throw new Exception( 'Nutzer konnte nicht geladen werden!' );
 			}
 		
 		} else {

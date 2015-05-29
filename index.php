@@ -14,8 +14,18 @@
 	require_once( 'classes/user.class.php' );
 	require_once( 'classes/html.class.php' );
 
-	require_once( 'config/db_data.config.php' );
 	require_once( 'config/user_table.config.php' );
+	
+	// test for config
+	if( !file_exists( 'config/db_data.config.php' ) ) {
+		
+		header( 'Location: installer.php' );
+		exit;
+	
+	} else {
+		
+		require_once( 'config/db_data.config.php' );
+	}
 
 
 ///define some meta informations about this page

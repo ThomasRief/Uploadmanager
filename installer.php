@@ -1,97 +1,124 @@
 <?php
-
+	
 /// start session
-	session_start();	
-
-/// set some var
-	$mainTitle = '';
+	session_start();
+	
+/// set defaults
+	$mainTitle = 'Datenbankkonfiguration';
 	$subTitle = '';
 	$error = '';
 	$content = '';
-
-if( isset( $_SESSION['userID'] ) ) {
+	$self = $_SERVER['PHP_SELF'];
 	
-	/// load user
-		require_once( 'classes/user.class.php' );
-		$user = new user();
-		$user->loadUser( $_SESSION['userID'] );
-		
-} else {
+/// test for file
+	$configFileExists = file_exists( 'config/db_data.config.php' );
 	
-	$user = FALSE;
-}
-
-/// content generieren
+/// get stuff to do
 	if( isset( $_GET['do'] ) ) {
 		
-		switch( $_GET['do'] ) {
+		$do = $_GET['do'];
+	
+	} else {
+		
+		$do = 'default';
+	}
+	
+/// create interface
+	#if( isset( $_SESSION['userID'] ) ) {
+		
+		switch( $do ) {
 			
-			default:
-				$mainTitle = 'Unbekannte Aufgabe!';
-				$subTitle = 'Aufgabe unbekannt:';
-				$error = 
-				'<div class="error">
-					<p>
-						Es scheint irgendwo ein Fehler aufgetreten zu sein. Sonst können wir uns das ganze nicht erklären.
-						<br><br>
-						Sie versuchen gerade etwas zu tun, was wir gar nicht können. Gehen Sie einfach eine Seite zurück, um den 
-						Fehler zu beheben.
-					</p>
-				</div>';
-			break;
-				
-			case 'firstCheck':
-				$mainTitle = 'Fehlerüberprüfung';
-				$subTitle = 'Ein kleiner Systemcheck:';
+			// default:
+			case 'default':
+				// content informations
+				$subTitle = 'Willkommen';
 				$content = 
-				'<h3>Folgende Probleme wurden gefunden:</h3>';
+				'<h3>Willkommen</h3>
+				<p>
+					Mithilfe dieses Programmes können Sie Fehler an
+					der Datenbankverbindung oder der Datenbank selber
+					beheben. Drücken Sie einfach auf "Weiter", um fortzufahren.
+				</p>
+				<a href="'.$self.'?do=check">Weiter</a>';
+			break;
+			
+			// case to check for errors
+			case 'check':
+				// content information
+				$subTitle = 'Systemcheck:';
+				$content = 
+				'<h3>Es konnten folgende Fehler gefunden werden:</h3>
+				<div class="dir">';
 				
-				if( !file_exists( 'config/db_data.config.php' ) ) {
+				// check for config file:
+				if( !$configFileExists ) {
 					
 					$content .= 
-					'<p>
-						Datenbankverbindung nicht konfiguriert (Fehlende Konfigurationsdatei)!<br>
-						<a href="'.$_SERVER['PHP_SELF'].'?do=configurDB">beheben</a>
-					</p>
-					<p>
-						... weitere Überprüfungen nicht möglich.
-					</p>';
+					'<div class="file folder redBorder">
+						<p>
+							Es fehlt die db_data.config.php-Datei!
+							(<a href="'.$self.'?do=config">Beheben</a>)
+						</p>
+					</div>';
 				
 				} else {
 					
 					require_once( 'classes/connection.class.php' );
 					require_once( 'config/db_data.config.php' );
 					
-					$conn = new connection( DB_USER, DB_PASS );
-					
-					$sql = 'USE '.DB_NAME;
-					if( $conn->executeSQL( $sql ) == FALSE ) {
+					try {
 						
-						$content .= 
-						'<p>
-							Datenbank "'.DB_NAME.'" konnte nicht gefunden werden und muss erstellt werden! <br>
-							<a href="'.$_SERVER['PHP_SELF'].'?do=createDB">beheben</a>
-						</p>';
+						$conn = new connection( DB_USER, DB_PASS );
+						
+						$sql = 'USE '.DB_NAME;
+						if( $conn->executeSQL( $sql ) == FALSE ) {
+							
+							$content .= 
+							'<div class="file folder redBorder">
+								<p>
+									Datenbank "'.DB_NAME.'" konnte nicht gefunden werden und muss erstellt werden! 
+									(<a href="'.$_SERVER['PHP_SELF'].'?do=db">beheben</a>)
+								</p>
+							</div>';
+						
+						} else {
+				
+							$content .= 
+							'<div class="file">
+								<p>
+									Es wurden keine Probleme gefunden!
+								</p>
+							</div>';
+						}
 					
-					} else {
-			
-						$content .= 
-						'<p>
-							Es wurden keine Probleme gefunden!
-						</p>
-						<a href="index.php">Zur Hauptseite</a>';
+					} catch( PDOException $e ) {
+						
+						$error = 
+						'<div class="error">
+							<p>
+								Es ist ein Fehler mit der Datenbank aufgetreten!
+							</p>
+						</div>';
+						
 					}
-				} 
+						
+				}
+				
+				$content .= 
+				'</div><br />
+				<a href="index.php">Abbrechen</a>';
 			break;
 			
-			case 'configurDB':
-				$mainTitle = 'Datenbankverbindung erstellen:';
+			// case create config file
+			case 'config':
+				// content informations
+				$subTitle = 'Verbindung erstellen:';
 				$content = 
-				'<h3>Datenbankverbindung erstellen:</h3>
+				'<h3>Bitte geben Sie Ihre Zugangsdaten an:</h3>
 				<p>
-					Bitte geben Sie Ihre Datenbankinformationen ein:
+					Sie benötigen einen funktionierenden MySQL-Server!
 				</p>
-				<form action="'.$_SERVER['PHP_SELF'].'?do=configurDB" method="POST">
+				<form action="'.$self.'?do=config" method="POST">
 					<input type="text" name="name" value="root" placeholder="Nutzername" />
 					<input type="password" name="password" placeholder="Passwort" />
 					
@@ -117,7 +144,7 @@ if( isset( $_SESSION['userID'] ) ) {
 						$file = fopen( 'config/db_data.config.php', 'a' );
 						fwrite( $file, $confile );
 						
-						header( 'Location: '.$_SERVER['PHP_SELF'].'?do=firstCheck' );
+						header( 'Location: '.$_SERVER['PHP_SELF'].'?do=check' );
 					
 					} catch( Exception $e ) {
 						
@@ -129,10 +156,12 @@ if( isset( $_SESSION['userID'] ) ) {
 						</div>';
 					}
 				}
+				
 			break;
 			
-			case 'createDB':
-				$mainTitle = 'Datenbank erstellen:';
+			// case create database
+			case 'db':
+				$subTitle = 'Datenbank erstellen:';
 				$content =
 				'<h3>Datenbank und Tabellen anlegen</h3>
 				<p>
@@ -152,7 +181,7 @@ if( isset( $_SESSION['userID'] ) ) {
 				<p>
 					Klicken Sie auf "Weiter" um die Datenbank zu installieren.
 				</p>
-				<a href="'.$_SERVER['PHP_SELF'].'?do=createDB&checked">Weiter</a>';
+				<a href="'.$self.'?do=db&checked">Weiter</a>';
 				
 				if( isset( $_GET['checked'] ) ) {
 		
@@ -200,28 +229,31 @@ if( isset( $_SESSION['userID'] ) ) {
 					
 					if( !$errorOccurred ) {
 						
-						header( 'Location: '.$_SERVER['PHP_SELF'].'?do=firstCheck' );
+						header( 'Location: '.$_SERVER['PHP_SELF'].'?do=check' );
 					}
 				}
-			break;
 			
+			break;
 		}
 	
+	/*
 	} else {
 		
-		$mainTitle = 'Willkommen!';
-		$subTitle = 'Datenbank konfigurieren:';
-		$content =
-		'<h3>Probleme mit der Datenbank?</h3>
-		<p>
-			Mithilfe des folgenden Programmes können Sie alle Datenbankfehler beheben. Drücken Sie einfach auf "Weiter"!
-		</p>
-		<a href="'.$_SERVER['PHP_SELF'].'?do=firstCheck">Weiter</a>';
-	}
-
-?>
-
-<!DOCTYPE html>
+		$error = 
+		'<div class="error">
+			<p>
+				<strong>Fehler:</strong><br>
+				Sie haben nicht das Recht diese Seite zu öffnen! Bitte melden Sie sich 
+				als Administrator an!
+			</p>
+		</div>';
+		$content = '<br><a href="index.php">Zurück zur Startseite</a>';
+	} 
+	*/
+	
+/// return the HTML
+echo(
+'<!DOCTYPE html>
 	<html>
 		<head>
 			<title> Datenbankkonfiguration </title>
@@ -236,18 +268,19 @@ if( isset( $_SESSION['userID'] ) ) {
 				
 				<header>
 					
-					<h1><?php echo( $mainTitle ) ?></h1>
-					<h2><?php echo( $subTitle ) ?></h2>
+					<h1>'.$mainTitle.'</h1>
+					<h2>'.$subTitle.'</h2>
 					
 				</header>
 				<div class="content">
 					
-					<?php echo( $error ) ?>
-					
-					<?php echo( $content ) ?>
+					'.$error.'					
+					'.$content.'
 					
 				</div>
 				
 			</div>
 		</body>
-	</html>
+	</html>')
+
+?>
